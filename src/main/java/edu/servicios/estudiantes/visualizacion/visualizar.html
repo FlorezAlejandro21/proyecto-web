@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Estudiantes</title>
+</head>
+<body>
+    <h1>Lista de Estudiantes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-estudiantes"></tbody>
+    </table>
+
+    <script>
+        function cargarEstudiantes() {
+            fetch('http://localhost:8080/api/estudiantes') 
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+
+                    tablaEstudiantes.innerHTML = '';
+
+                    data.forEach(estudiante => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${estudiante.id}</td>
+                            <td>${estudiante.nombre}</td>
+                            <td>${estudiante.apellido}</td>
+                            <td>${estudiante.correo}</td>
+                        `;
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar estudiantes:', error);
+                });
+        }
+
+        window.onload = cargarEstudiantes;
+    </script>
+</body>
+</html>

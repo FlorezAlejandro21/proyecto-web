@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Estudiantes</title>
+</head>
+
+<body>
+    <h1>Mantenimiento de Estudiantes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-estudiantes"></tbody>
+    </table>
+
+    <script>
+        function cargarEstudiantes() {
+            fetch('http://localhost:8080/api/estudiantes')
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+
+                    data.forEach(estudiante => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${estudiante.id}</td>
+                            <td>${estudiante.nombre}</td>
+                            <td>${estudiante.apellido}</td>
+                            <td>${estudiante.correo}</td>
+                            <td>
+                                <button onclick="editarEstudiante(${estudiante.id})">Editar</button>
+                                <button onclick="borrarEstudiante(${estudiante.id})">Borrar</button>
+                            </td>
+                        `;
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar estudiantes:', error);
+                });
+        }
+
+
+        function editarEstudiante(id) {
+            fetch(`http://localhost:8080/api/estudiante/${id}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else if (response.status === 404) {
+                        alert('Estudiante no encontrado.');
+                        return null;
+                    } else {
+                        alert('Hubo un error al obtener el estudiante.');
+                        return null;
+                    }
+                })
+                .then(estudianteActual => {
+                    if (estudianteActual) {
+
+                        const nuevoNombre = prompt('Editar Nombre:', estudianteActual.nombre);
+                        const nuevoApellido = prompt('Editar Apellido:', estudianteActual.apellido);
+                        const nuevoCorreo = prompt('Editar Correo:', estudianteActual.correo);
+
+                        if (nuevoNombre !== null && nuevoApellido !== null && nuevoCorreo !== null) {
+
+                            const estudianteEditado = {
+                                nombre: nuevoNombre,
+                                apellido: nuevoApellido,
+                                correo: nuevoCorreo
+                            };
+
+
+                            fetch(`http://localhost:8080/api/actualiza/${id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(estudianteEditado)
+                            })
+                                .then(response => {
+                                    if (response.status === 200) {
+                                        alert('Estudiante actualizado exitosamente.');
+                                        cargarEstudiantes();
+                                    } else if (response.status === 404) {
+                                        alert('Estudiante no encontrado.');
+                                    } else {
+                                        alert('Hubo un error al actualizar el estudiante.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error en la solicitud:', error);
+                                });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                });
+        }
+
+
+
+        function borrarEstudiante(id) {
+            if (confirm(`¿Estás seguro de que deseas borrar al estudiante con ID ${id}?`)) {
+                fetch(`http://localhost:8080/api/borra/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.status === 204) {
+                            alert('Estudiante borrado exitosamente.');
+                            cargarEstudiantes();
+                        } else if (response.status === 404) {
+                            alert('Estudiante no encontrado.');
+                        } else {
+                            alert('Hubo un error al borrar el estudiante.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la solicitud:', error);
+                    });
+            }
+        }
+
+        window.onload = cargarEstudiantes;
+    </script>
+</body>
+
+</html>

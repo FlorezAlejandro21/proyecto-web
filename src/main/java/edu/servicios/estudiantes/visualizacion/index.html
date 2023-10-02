@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Formulario de Estudiante</title>
+</head>
+
+<body>
+    <h1>Formulario de Estudiante</h1>
+
+    <form id="estudianteForm" action="http://localhost:8080/api/crea" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required><br><br>
+
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required><br><br>
+
+        <input type="submit" value="Guardar Estudiante">
+    </form>
+
+    <button onclick="window.location.href = './visualizar.html';">Ver Estudiantes</button>
+    <button onclick="window.location.href = './mantener.html';">Mantenimiento lista estudiantes</button>
+
+    <script>
+        const formulario = document.getElementById('estudianteForm');
+
+        formulario.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const correo = document.getElementById('correo').value;
+
+            const estudiante = {
+                nombre: nombre,
+                apellido: apellido,
+                correo: correo
+            };
+
+            fetch('http://localhost:8080/api/crea', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(estudiante)
+            })
+                .then(response => {
+                    if (response.status === 201) {
+                        alert('Estudiante guardado exitosamente.');
+                    } else {
+                        alert('Hubo un error al guardar el estudiante.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                });
+        });
+
+    </script>
+</body>
+
+</html>
