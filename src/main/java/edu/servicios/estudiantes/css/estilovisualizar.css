@@ -1,0 +1,52 @@
+/* estilovisualizar.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    background-color: #84448a;
+    color: white;
+    padding: 20px;
+    margin: 0;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 2px solid #84448a; /* Borde de la tabla */
+}
+
+thead th {
+    background-color: #84448a;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #fff; /* Borde de las celdas del encabezado */
+}
+
+tbody td {
+    border: 1px solid #84448a; /* Borde de las celdas del cuerpo de la tabla */
+    padding: 10px;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo para filas pares */
+}
+
+button {
+    background-color: #cf7fe7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #cf7fe7;
+}

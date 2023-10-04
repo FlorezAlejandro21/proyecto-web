@@ -3,26 +3,32 @@
 
 <head>
     <title>Formulario de Estudiante</title>
+    <link rel="stylesheet" type="text/css" href="../css/estiloindex.css">
 </head>
 
 <body>
-    <h1>Formulario de Estudiante</h1>
+    <div  class="titulo">
+        <h1>Formulario de Estudiante:</h1>
+    </div>
 
-    <form id="estudianteForm" action="http://localhost:8080/api/crea" method="POST">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
+    <div class="form">
+        <form id="estudianteForm" action="http://localhost:8080/api/crea" method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required><br><br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
 
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" required><br><br>
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required><br><br>
 
-        <input type="submit" value="Guardar Estudiante">
-    </form>
+            <input type="submit" value="Guardar Estudiante">
+        </form>
 
-    <button onclick="window.location.href = './visualizar.html';">Ver Estudiantes</button>
-    <button onclick="window.location.href = './mantener.html';">Mantenimiento lista estudiantes</button>
+
+        <button class="ingreso" onclick="window.location.href = './visualizar.html';">Ver Estudiantes</button>
+        <button class="ingreso" onclick="window.location.href = './mantener.html';">Mantenimiento lista estudiantes</button>
+    </div>
 
     <script>
         const formulario = document.getElementById('estudianteForm');
@@ -57,6 +63,8 @@
                 .catch(error => {
                     console.error('Error en la solicitud:', error);
                 });
+
+            formulario.reset()
         });
 
     </script>

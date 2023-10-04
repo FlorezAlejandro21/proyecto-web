@@ -1,0 +1,81 @@
+/* estilo.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #3a1163;
+    color: #fff; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.ingreso {
+    background-color: #9baab9;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    padding: 20px 0;
+    height: 6px;
+}
+
+.form {
+    background-color: rgba(167, 63, 216, 0.418); 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: 60%;
+    width: 80%; 
+    max-width: 400px; 
+    margin-bottom: 20px; /* Agregamos margen inferior para separar del botón */
+}
+
+label {
+    font-weight: bold;
+    width: auto;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+input[type="submit"] {
+    background-color: #9baab9;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #84b8f0;
+}
+
+.button {
+    margin: 0;
+    padding: 20px 20px;
+    background-color: #00ff37;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: 60%;
+    width: 80%; 
+    max-width: 400px; 
+}
+
+.ingreso:hover {
+    background-color: #79a5d3;
+}
+
+.titulo {
+    text-align: center;
+    font-family: "Helvetica", sans-serif;
+    margin-top: -500px; 
+}

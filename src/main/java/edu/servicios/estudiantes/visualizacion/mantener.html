@@ -3,6 +3,7 @@
 
 <head>
     <title>Estudiantes</title>
+    <link rel="stylesheet" type="text/css" href="../css/estilomantener.css">
 </head>
 
 <body>
@@ -19,14 +20,14 @@
         </thead>
         <tbody id="tabla-estudiantes"></tbody>
     </table>
-
+    <button onclick="window.location.href = './index.html';">Regresar Formulario</button>
     <script>
         function cargarEstudiantes() {
             fetch('http://localhost:8080/api/estudiantes')
                 .then(response => response.json())
                 .then(data => {
                     const tablaEstudiantes = document.getElementById('tabla-estudiantes');
-
+                    tablaEstudiantes.innerHTML = '';
                     data.forEach(estudiante => {
                         const fila = document.createElement('tr');
                         fila.innerHTML = `
