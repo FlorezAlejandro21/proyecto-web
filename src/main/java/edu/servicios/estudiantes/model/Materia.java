@@ -11,12 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table
-public class Estudiante {
+@Table(name = "materia")
+public class Materia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
-    private String apellido;
-    private String correo;
+    private Integer creditos;
 }

@@ -1,7 +1,10 @@
 package edu.servicios.estudiantes.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import edu.servicios.estudiantes.model.Estudiante;
+import java.util.List;
 
-public interface EstudianteRepositorio extends JpaRepository<Estudiante, Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import edu.servicios.estudiantes.model.Persona;
+
+public interface EstudianteRepositorio extends JpaRepository<Persona, Integer> {
+    List<Persona> findByRol(String rol);
 }

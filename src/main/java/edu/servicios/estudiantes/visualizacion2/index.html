@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Estudiantes</title>
+    <link rel="stylesheet" type="text/css" href="../css/estilovisualizar.css">
+</head>
+
+<body>
+    <h1>Lista de Estudiantes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Notas</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-estudiantes"></tbody>
+    </table>
+    <h2 id="nombre-estudiante"></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Codigo Curso</th>
+                <th>Nombre Materia</th>
+                <th>Nota Definitiva</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-notas"></tbody>
+    </table>
+
+    <script>
+        function cargarEstudiantes() {
+            fetch('http://localhost:8080/api/estudiantes')
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+
+                    tablaEstudiantes.innerHTML = '';
+
+                    data.forEach(estudiante => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${estudiante.id}</td>
+                            <td>${estudiante.nombre}</td>
+                            <td>${estudiante.apellido}</td>
+                            <td>${estudiante.correo}</td>
+                            <td>
+                                <button onclick="cargarNotas(${estudiante.id}, '${estudiante.nombre}  ${estudiante.apellido}')">Mostrar</button>
+                            </td>
+                        `;
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar estudiantes:', error);
+                });
+        }
+
+        function cargarNotas(estudianteId, nombreEstudiante) {
+            const nombreEstudianteElement = document.getElementById('nombre-estudiante');
+            nombreEstudianteElement.textContent = `Notas para: ${nombreEstudiante}`;
+
+            fetch(`http://localhost:8080/api/estudiante/${estudianteId}/notas`)
+                .then(response => response.json())
+                .then(notas => {
+                    const notasFiltradas = filterDuplicateNotas(notas);
+
+                    const notasContainer = document.getElementById('tabla-notas');
+                    notasContainer.innerHTML = '';
+
+                    notasFiltradas.forEach(nota => {
+                        const notaElement = document.createElement('tr');
+                        notaElement.innerHTML = `
+                    <td>${nota.cursoCodigo}</td>
+                    <td>${nota.materiaNombre}</td>
+                    <td>${nota.notaValor}</td>
+                `;
+                        notasContainer.appendChild(notaElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar notas:', error);
+                });
+        }
+        function filterDuplicateNotas(notas) {
+            const uniqueNotas = [];
+            const seen = new Set();
+
+            for (const nota of notas) {
+                const notaKey = `${nota.cursoCodigo}-${nota.materiaNombre}`;
+                if (!seen.has(notaKey)) {
+                    seen.add(notaKey);
+                    uniqueNotas.push(nota);
+                }
+            }
+
+            return uniqueNotas;
+        }
+
+        window.onload = cargarEstudiantes;
+    </script>
+</body>
+
+</html>

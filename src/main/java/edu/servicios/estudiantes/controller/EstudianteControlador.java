@@ -1,5 +1,6 @@
 package edu.servicios.estudiantes.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.servicios.estudiantes.repository.EstudianteRepositorio;
-import edu.servicios.estudiantes.model.Estudiante;
+import edu.servicios.estudiantes.repository.CursoRepositorio;
+import edu.servicios.estudiantes.model.NotasPorEstudiante;
+import edu.servicios.estudiantes.model.Persona;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -25,44 +28,74 @@ import edu.servicios.estudiantes.model.Estudiante;
 public class EstudianteControlador {
     @Autowired
     private EstudianteRepositorio repositorioEstudiante;
+    @Autowired
+    private CursoRepositorio repositorioCurso;
 
     @GetMapping("/estudiantes")
-    public List<Estudiante> traeEstudiantes() {
+    public List<Persona> traerEstudiantes() {
+        return repositorioEstudiante.findByRol("E");
+    }
+
+    @GetMapping("/profesores")
+    public List<Persona> traerProfesores() {
+        return repositorioEstudiante.findByRol("P");
+    }
+
+    @GetMapping("/personas")
+    public List<Persona> traerPersonas() {
         return repositorioEstudiante.findAll();
     }
 
-    @GetMapping("/estudiante/{id}")
-    public Optional<Estudiante> traeUnEstudiante(@PathVariable Integer id) {
+    @GetMapping("/persona/{id}")
+    public Optional<Persona> traeUnaPersona(@PathVariable Integer id) {
         return repositorioEstudiante.findById(id);
     }
 
-    @PostMapping("/crea")
-    public ResponseEntity<Estudiante> creaEstudiante(@RequestBody Estudiante estudiante) {
-        Estudiante nuevoEstudiante = repositorioEstudiante.save(estudiante);
-        return new ResponseEntity<>(nuevoEstudiante, HttpStatus.CREATED);
+    @PostMapping("/crear")
+    public ResponseEntity<Persona> creaEstudiante(@RequestBody Persona persona) {
+        Persona nuevaPersona = repositorioEstudiante.save(persona);
+        return new ResponseEntity<>(nuevaPersona, HttpStatus.CREATED);
     }
 
     @PutMapping("/actualiza/{id}")
-    public ResponseEntity<Estudiante> actualizaEstudiante(@PathVariable Integer id,
-            @RequestBody Estudiante estudiante) {
-        Optional<Estudiante> estudianteActual = repositorioEstudiante.findById(id);
-        if (estudianteActual == null) {
-            return new ResponseEntity<Estudiante>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Persona> actualizaEstudiante(@PathVariable Integer id,
+            @RequestBody Persona persona) {
+        Optional<Persona> personaActual = repositorioEstudiante.findById(id);
+        if (personaActual == null) {
+            return new ResponseEntity<Persona>(HttpStatus.NOT_FOUND);
         }
-        estudianteActual.get().setNombre(estudiante.getNombre());
-        estudianteActual.get().setApellido(estudiante.getApellido());
-        estudianteActual.get().setCorreo(estudiante.getCorreo());
-        repositorioEstudiante.save(estudianteActual.get());
-        return new ResponseEntity<Estudiante>(HttpStatus.OK);
+        personaActual.get().setNombre(persona.getNombre());
+        personaActual.get().setApellido(persona.getApellido());
+        personaActual.get().setCorreo(persona.getCorreo());
+        personaActual.get().setRol(persona.getRol());
+        repositorioEstudiante.save(personaActual.get());
+        return new ResponseEntity<Persona>(HttpStatus.OK);
     }
 
     @DeleteMapping("/borra/{id}")
     public ResponseEntity<HttpStatus> borraEstudiante(@PathVariable Integer id) {
-        Optional<Estudiante> estudiante = repositorioEstudiante.findById(id);
-        if (estudiante == null) {
+        Optional<Persona> persona = repositorioEstudiante.findById(id);
+        if (persona == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        repositorioEstudiante.delete(estudiante.get());
+        repositorioEstudiante.delete(persona.get());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/estudiante/{estudianteId}/notas")
+    public List<NotasPorEstudiante> obtenerNotasPorEstudiante(@PathVariable Integer estudianteId) {
+        List<Object[]> resultados = repositorioCurso.findNotasPorEstudiante(estudianteId);
+        List<NotasPorEstudiante> notas = new ArrayList<>();
+        
+        for (Object[] resultado : resultados) {
+            NotasPorEstudiante nota = new NotasPorEstudiante();
+            nota.setCursoCodigo((String) resultado[0]);
+            nota.setMateriaNombre((String) resultado[1]);
+            nota.setNotaValor((Double) resultado[2]);
+            notas.add(nota);
+        }
+        
+        return notas;
+    }
+
 }
