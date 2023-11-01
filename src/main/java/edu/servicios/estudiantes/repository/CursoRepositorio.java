@@ -18,3 +18,9 @@ public interface CursoRepositorio extends JpaRepository<Curso, Integer> {
     List<Object[]> findNotasPorEstudiante(@Param("estudianteId") Integer estudianteId);
 }
 
+// SELECT c.numero AS cursoCodigo, m.nombre AS materiaNombre, n.valor AS notaValor
+// FROM public.curso c
+// INNER JOIN materia m ON c.materia_id = m.id
+// INNER JOIN nota n ON c.materia_id = n.materia_id
+//                 AND c.profesor_id = n.profesor_id
+// 				WHERE n.estudiante_id=1

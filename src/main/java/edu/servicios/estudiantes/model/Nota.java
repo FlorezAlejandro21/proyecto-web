@@ -38,7 +38,7 @@ public class Nota {
     @Column(name = "valor")
     private Double valor;
     
-    @Column(name = "porcentaje")
-    private Double porcentaje;
+    // @Column(name = "porcentaje")
+    // private Double porcentaje;
 
 }

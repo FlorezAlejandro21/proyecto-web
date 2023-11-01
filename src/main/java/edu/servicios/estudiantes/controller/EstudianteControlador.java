@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.servicios.estudiantes.repository.EstudianteRepositorio;
+import edu.servicios.estudiantes.repository.NotaRepositorio;
 import edu.servicios.estudiantes.repository.CursoRepositorio;
+import edu.servicios.estudiantes.model.Nota;
 import edu.servicios.estudiantes.model.NotasPorEstudiante;
 import edu.servicios.estudiantes.model.Persona;
 
@@ -30,6 +32,8 @@ public class EstudianteControlador {
     private EstudianteRepositorio repositorioEstudiante;
     @Autowired
     private CursoRepositorio repositorioCurso;
+    @Autowired
+    private NotaRepositorio repositorioNota;
 
     @GetMapping("/estudiantes")
     public List<Persona> traerEstudiantes() {
@@ -79,6 +83,48 @@ public class EstudianteControlador {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         repositorioEstudiante.delete(persona.get());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/notas")
+    public List<Nota> traerNotas() {
+        return repositorioNota.findAll();
+    }
+
+    @GetMapping("/nota/{id}")
+    public Optional<Nota>traerNota(@PathVariable Integer id) {
+        return repositorioNota.findById(id);
+    }
+
+    @PostMapping("/crear-nota")
+    public ResponseEntity<Nota> crearNota(@RequestBody Nota nota) {
+        Nota nuevaNota = repositorioNota.save(nota);
+        return new ResponseEntity<>(nuevaNota, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/actualizar-nota/{id}")
+    public ResponseEntity<Nota> actualizarNota(@PathVariable Integer id,
+            @RequestBody Nota nota) {
+        Optional<Nota> notaActual = repositorioNota.findById(id);
+        if (notaActual == null) {
+            return new ResponseEntity<Nota>(HttpStatus.NOT_FOUND);
+        }
+        notaActual.get().setMateria(nota.getMateria());
+        notaActual.get().setProfesor(nota.getProfesor());
+        notaActual.get().setEstudiante(nota.getEstudiante());
+        notaActual.get().setObservacion(nota.getObservacion());
+        notaActual.get().setValor(nota.getValor());
+        repositorioNota.save(notaActual.get());
+        return new ResponseEntity<Nota>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/borrar-nota/{id}")
+    public ResponseEntity<HttpStatus> borrarNota(@PathVariable Integer id) {
+        Optional<Nota> nota = repositorioNota.findById(id);
+        if (nota == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        repositorioNota.delete(nota.get());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
