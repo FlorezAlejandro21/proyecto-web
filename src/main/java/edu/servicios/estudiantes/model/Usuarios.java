@@ -1,7 +1,5 @@
 package edu.servicios.estudiantes.model;
 
-import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,16 +12,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table
-public class Persona {
+public class Usuarios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String usuario;
+    private String nombre;
     private String email;
-    private String contraseña;
-    private String cargo;    
-    private String ciudad;
-    private String direccion;
-    private String telefono;
-    private Date fecha_ingreso;
+    private String cargo;
+    private String contrasenia;
 }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/formulario.css">
+    <title>Editar Estudiante</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mantenimiento de Software</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil.png" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="formulario.html"><i class="fas fa-user-plus"></i>Registro</a></li>
+                    <li><a href="editarUsuario.html"><i class="fas fa-pencil-alt"></i>Edicion</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="formularioMaq.html"><i class="fas fa-plus"></i>Insertar maquina</a></li>
+                    <li><a href="editarMaq.html"><i class="fas fa-edit"></i>Modificar maquina</a></li>
+                    <li><a href="consultarMaq.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+                <ul class="submenu">
+                    <a href="historial.html"><i class="far fa-clock"></i> Historial</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Editar de Registro</h1>
+        <form id="formularioRegistro">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="contrasenia">Contraseña:</label>
+            <input type="password" id="contrasenia" name="contrasenia" required><br>
+
+            <label for="cargo">Cargo:</label>
+            <select id="cargo" name="cargo">
+                <option value="admin">Administrador</option>
+                <option value="coordinador">Coordinador</option>
+            </select><br>
+
+            <label for="usuario">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" required><br>
+
+            <label for="usuario">Direccion:</label>
+            <input type="text" id="direccion" name="direccion" required><br>
+
+            <label for="usuario">Telefono:</label>
+            <input type="number" id="telefono" name="telefono" required><br>
+
+            <input type="submit" value="Registrar">
+        </form>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            // Realiza una solicitud para obtener los datos del estudiante por su ID
+            fetch(`http://localhost:8080/api/persona/${id}`)
+                .then(response => response.json())
+                .then(persona => {
+                    document.getElementById('usuario').value = persona.usuario;
+                    document.getElementById('email').value = persona.email;
+                    document.getElementById('contrasenia').value = persona.contraseña;
+                    document.getElementById('cargo').value = persona.cargo;
+                    document.getElementById('ciudad').value = persona.ciudad;
+                    document.getElementById('direccion').value = persona.direccion;
+                    document.getElementById('telefono').value = persona.telefono;
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos del estudiante:', error);
+                });
+        }
+
+        document.getElementById('formularioRegistro').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Captura los valores del formulario
+            const usuario = document.getElementById('usuario').value;
+            const email = document.getElementById('email').value;
+            const contrasenia = document.getElementById('contrasenia').value;
+            const cargo = document.getElementById('cargo').value;
+            const ciudad = document.getElementById('ciudad').value;
+            const direccion = document.getElementById('direccion').value;
+            const telefono = document.getElementById('telefono').value;
+            const fecha = new Date()
+
+            // Crea un objeto con los datos
+            const persona = {
+                usuario: usuario,
+                email: email,
+                contraseña: contrasenia,
+                cargo: cargo,
+                ciudad: ciudad,
+                direccion: direccion,
+                telefono: telefono,
+                fecha_ingreso: fecha
+            };
+
+            // Realiza una solicitud PUT al endpoint /actualiza/{id}
+            fetch(`http://localhost:8080/api/actualiza/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(persona)
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('Persona actualizado exitosamente.');
+                        window.location.href = 'editarUsuario.html';
+                    } else if (response.status === 404) {
+                        alert('Persona no encontrada.');
+                    } else {
+                        alert('Hubo un error al actualizar la persona.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

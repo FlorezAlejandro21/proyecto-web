@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/formulario.css">
+    <!-- Agrega un archivo CSS externo para estilizar el formulario -->
+    <link rel="stylesheet" href="../css/tabla.css"> <!-- Agrega un archivo CSS externo para estilizar la tabla -->
+    <title>Mantenimiento de Software</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mantenimiento de Software</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil.png" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="formulario.html"><i class="fas fa-user-plus"></i>Registro</a></li>
+                    <li><a href="editarUsuario.html"><i class="fas fa-pencil-alt"></i>Edicion</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="formularioMaq.html"><i class="fas fa-plus"></i>Insertar maquina</a></li>
+                    <li><a href="editarMaq.html"><i class="fas fa-edit"></i>Modificar maquina</a></li>
+                    <li><a href="consultarMaq.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+                <ul class="submenu">
+                    <a href="historial.html"><i class="far fa-clock"></i> Historial</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Usuarios</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-estudiantes"></tbody>
+        </table>
+    </div>
+    <script>
+        function cargarEstudiantes() {
+            fetch('http://localhost:8080/api/personas')
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+
+                    tablaEstudiantes.innerHTML = '';
+
+                    data.forEach(persona => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${persona.id}</td>
+                            <td>${persona.usuario}</td>
+                            <td>${persona.email}</td>
+                            <td>${persona.cargo}</td>
+                            <td>
+                                <button onclick="editarEstudiante(${persona.id})">Editar</button>
+                            </td>
+                        `;
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar estudiantes:', error);
+                });
+        }
+
+        function editarEstudiante(id) {
+            window.location.href = `editar.html?id=${id}`;
+        }
+
+
+        window.onload = cargarEstudiantes;
+    </script>
+</body>
+
+</html>

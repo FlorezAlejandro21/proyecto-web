@@ -1,0 +1,70 @@
+.header {
+    background-color: #0e58a8; /* Color de fondo del encabezado */
+    color: #fff; /* Color del texto del encabezado */
+
+    padding: 20px; 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+}
+
+/* Estilo base para la barra de navegación */
+.sidebar {
+    width: 250px;
+    background-color: #007BFF;
+    color: #fff;
+    position: fixed;
+    height: 90%;
+    padding: 20px;
+}
+
+/* Estilo del logotipo */
+.logo img {
+    width: 100%;
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+/* Estilo de la lista de menú principal */
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+/* Estilo de los elementos de menú */
+.menu-item {
+    margin-bottom: 10px;
+}
+
+.menu-item a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+/* Estilo del menú desplegable */
+.submenu {
+    list-style: none;
+    padding: 0;
+    margin-left: 20px;
+}
+
+.submenu li {
+    margin-bottom: 5px;
+}
+
+.submenu a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.menu-item a {
+    display: flex; /* Utiliza flexbox para alinear verticalmente */
+    align-items: center; /* Centra verticalmente los elementos hijos */
+    text-decoration: none; /* Elimina la decoración de texto predeterminada */
+}
+
+.menu-item i {
+    margin-right: 10px; /* Espacio entre el ícono y el texto (ajusta según sea necesario) */
+}
+

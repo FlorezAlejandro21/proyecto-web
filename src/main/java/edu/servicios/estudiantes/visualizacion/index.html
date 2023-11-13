@@ -1,73 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Formulario de Estudiante</title>
-    <link rel="stylesheet" type="text/css" href="../css/estiloindex.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Login Page</title>
 </head>
 
 <body>
-    <div  class="titulo">
-        <h1>Formulario de Estudiante:</h1>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="registerForm">
+                <h1>Registrate</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>o utiliza correo electrónico</span>
+                <input type="text" id="nombre" placeholder="Name" required>
+                <input type="email" id='email' placeholder="Email" required>
+                <input type="text" id="cargo" placeholder="Cargo/Dependencia" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button>Registrar </button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>o utiliza correo electrónico</span>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <a href="#">Olvidaste tu contraseña?</a>
+                <input type="submit" value="Ingresar">
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Ingrese sus datos personales para utilizar todas las funciones del sitio.</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>¡Hola, amigo!</h1>
+                    <p>Regístrate con sus datos personales para utilizar todas las funciones del sitio</p>
+                    <button class="hidden" id="register">Inscribirse</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form">
-        <form id="estudianteForm" action="http://localhost:8080/api/crea" method="POST">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required><br><br>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required><br><br>
-
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required><br><br>
-
-            <input type="submit" value="Guardar Estudiante">
-        </form>
-
-
-        <button class="ingreso" onclick="window.location.href = './visualizar.html';">Ver Estudiantes</button>
-        <button class="ingreso" onclick="window.location.href = './mantener.html';">Mantenimiento lista estudiantes</button>
-    </div>
-
+    <script src="script.js"></script>
     <script>
-        const formulario = document.getElementById('estudianteForm');
+        // Función para el inicio de sesión
+        function iniciarSesion() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
 
-        formulario.addEventListener('submit', function (event) {
-            event.preventDefault();
+            var url = "http://localhost:8080/api/login/" + "prueba@ejemplo.com" + "/" + "123";
 
-            const nombre = document.getElementById('nombre').value;
-            const apellido = document.getElementById('apellido').value;
-            const correo = document.getElementById('correo').value;
-
-            const estudiante = {
-                nombre: nombre,
-                apellido: apellido,
-                correo: correo
-            };
-
-            fetch('http://localhost:8080/api/crea', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(estudiante)
-            })
+            fetch(url)
                 .then(response => {
-                    if (response.status === 201) {
-                        alert('Estudiante guardado exitosamente.');
+                    if (response.status === 200) {
+                        alert("Inicio de sesión exitoso");
+                        window.location.href = "pag2.html";
                     } else {
-                        alert('Hubo un error al guardar el estudiante.');
+                        alert("Inicio de sesión fallido");
                     }
                 })
                 .catch(error => {
-                    console.error('Error en la solicitud:', error);
+                    console.error("Error:", error);
                 });
+        }
 
-            formulario.reset()
+        // Función para el registro
+        function registrar() {
+            event.preventDefault();
+            var nombre = document.getElementById("nombre").value;
+            var email = document.getElementById("email").value;
+            var cargo = document.getElementById("cargo").value;
+            var password = document.getElementById("password").value;
+
+            var datosRegistro = {
+                nombre: nombre,
+                email: email,
+                cargo: cargo,
+                contrasenia: password
+            };
+
+            fetch("http://localhost:8080/api/crear", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datosRegistro)
+            })
+                .then(response => {
+                    if (response.status === 201) {
+                        alert("Registro exitoso");
+                    } else {
+                        alert("Registro fallido");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+
+        // Agregar manejadores de eventos para los formularios
+        document.getElementById("loginForm").addEventListener("submit", function () {
+            iniciarSesion();
         });
 
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            registrar();
+        });
     </script>
+
 </body>
 
 </html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/orden.css">
+    <title>Lista de Máquinas</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mantenimiento de Software</h1>
+    </div>
+    <div class="sidebar" style="margin-top: 0px;">
+        <div class="logo">
+            <img src="perfil.png" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="formulario.html"><i class="fas fa-user-plus"></i>Registro</a></li>
+                    <li><a href="editarUsuario.html"><i class="fas fa-pencil-alt"></i>Edicion</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="formularioMaq.html"><i class="fas fa-plus"></i>Insertar maquina</a></li>
+                    <li><a href="editarMaq.html"><i class="fas fa-edit"></i>Modificar maquina</a></li>
+                    <li><a href="consultarMaq.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a>
+            </li>
+        </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+            <ul class="submenu">
+                <a href="historial.html"><i class="far fa-clock"></i> Historial</a>
+        </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <form id="ordenForm" action="#" method="post">
+            <div class="form-group">
+                <label for="codigo">Codigo de maquina:</label>
+                <input type="text" id="codigo" name="codigo" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Responsable:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Mantenimiento:</label>
+                <select id="tipoMantenimientoS" name="tipoMantenimientoS" required>
+                    <option value="interno">Interno</option>
+                    <option value="externo">Externo</option>
+                </select>
+            </div>
+
+            <div class="form-group inline-radio">
+                <div>
+                    Preventivo<input type="radio" id="preventivo" name="tipoMantenimiento" value="preventivo" required>
+                </div>
+                <div>
+                    Correctivo<input type="radio" id="correctivo" name="tipoMantenimiento" value="correctivo" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="descripcion">Descripción del fallo:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Horario:</label>
+                <div>
+                    <label for="inicioFecha">Inicio:</label>
+                    <input type="date" id="inicioFecha" name="inicioFecha" required>
+                    <label for="horaInicio">a las</label>
+                    <input type="time" id="horaInicio" name="horaInicio" required>
+                </div>
+                <br>
+                <div>
+                    <label for="terminoFecha">Termino:</label>
+                    <input type="date" id="terminoFecha" name="terminoFecha" required>
+                    <label for="horaTermino">a las</label>
+                    <input type="time" id="horaTermino" name="horaTermino" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requerimientos">Requerimientos:</label>
+                <textarea id="requerimientos" name="requerimientos" rows="4" cols="50" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaAutorizacion">Fecha de autorización:</label>
+                <input type="text" id="fechaAutorizacion" name="fechaAutorizacion" value="" readonly>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar Orden">
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var formulario = document.getElementById("ordenForm");
+
+            formulario.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const codigo = document.getElementById('codigo').value;
+                const nombre = document.getElementById('nombre').value;
+                var tipoMantenimientoSelect = document.getElementById('tipoMantenimientoS');
+                const tipoMantenimiento = tipoMantenimientoSelect.value;
+
+                const tipo = document.querySelector('input[name="tipoMantenimiento"]:checked').value;
+                const descripcion = document.getElementById('descripcion').value;
+                const inicioFecha = document.getElementById('inicioFecha').value;
+                const horaInicio = document.getElementById('horaInicio').value;
+                const terminoFecha = document.getElementById('terminoFecha').value;
+                const horaTermino = document.getElementById('horaTermino').value;
+                const requerimientos = document.getElementById('requerimientos').value;
+                const fecha = new Date()
+
+                const fechaHoraIniString = `${inicioFecha}T${horaInicio}:00.000Z`;
+                const fechaHoraIni = new Date(fechaHoraIniString);
+
+                const fechaHoraFinString = `${terminoFecha}T${horaTermino}:00.000Z`;
+                const fechaHoraFin = new Date(fechaHoraFinString);
+
+                fechaHoraIni.setHours(fechaHoraIni.getHours() + 5)
+                fechaHoraFin.setHours(fechaHoraFin.getHours() + 5)
+
+                console.log(fechaHoraIni)
+                console.log(fechaHoraFin)
+
+                const orden = {
+                    codigo: codigo,
+                    nombre: nombre,
+                    mantenimiento: tipoMantenimiento,
+                    tipo: tipo,
+                    descripcion: descripcion,
+                    fecha_hora_inicio: fechaHoraIni,
+                    fecha_hora_fin: fechaHoraFin,
+                    requerimientos: requerimientos,
+                    fecha_autor: fecha
+                }
+
+
+                fetch("http://localhost:8080/api/crear-orden", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(orden)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Orden creada con exito")
+                    })
+                    .catch(error => console.error("Error al enviar la orden:", error));
+            });
+
+            const fechaAutorizacionInput = document.getElementById("fechaAutorizacion");
+            var fechaActual = new Date();
+            var dd = String(fechaActual.getDate()).padStart(2, '0');
+            var mm = String(fechaActual.getMonth() + 1).padStart(2, '0');
+            var yyyy = fechaActual.getFullYear();
+            var fechaFormateada = dd + '/' + mm + '/' + yyyy;
+            fechaAutorizacionInput.value = fechaFormateada;
+        });
+    </script>
+
+</body>
+
+</html>

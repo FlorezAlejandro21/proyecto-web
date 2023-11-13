@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/formulario.css">
+    <!-- Agrega un archivo CSS externo para estilizar el formulario -->
+    <title>Formulario de Registro</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mantenimiento de Software</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil.png" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="formulario.html"><i class="fas fa-user-plus"></i>Registro</a></li>
+                    <li><a href="editarUsuario.html"><i class="fas fa-pencil-alt"></i>Edicion</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="formularioMaq.html"><i class="fas fa-plus"></i>Insertar maquina</a></li>
+                    <li><a href="editarMaq.html"><i class="fas fa-edit"></i>Modificar maquina</a></li>
+                    <li><a href="consultarMaq.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+                <ul class="submenu">
+                    <a href="historial.html"><i class="far fa-clock"></i> Historial</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Registro de Maquinas</h1>
+        <form id="formularioRegistro" enctype="multipart/form-data">
+            <label for="nombre">Nombre de maquina:</label>
+            <input type="text" id="nombre" name="nombre" required><br>
+
+            <label for="codigo">Codigo:</label>
+            <input type="text" id="codigo" name="codigo" required><br>
+
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" name="marca" required><br>
+
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" name="modelo" required><br>
+
+            <label for="potencia">Potencia (Hp):</label>
+            <input type="text" id="potencia" name="potencia" required><br>
+
+            <label for="productividad">Productividad (kg/h):</label>
+            <input type="text" id="productividad" name="productividad" required><br>
+
+            <label for="voltaje">Voltaje (voltios):</label>
+            <input type="text" id="voltaje" name="voltaje" required><br>
+
+            <label for="peso">Peso (kg):</label>
+            <input type="text" id="peso" name="peso" required><br>
+
+            <label for="estado">Estado de adquisision:</label>
+            <input type="text" id="estado" name="estado" required><br>
+
+            <label for="fecha">Fecha de adquisision:</label>
+            <input type="text" id="fecha" name="fecha" placeholder="yyyy-MM-dd" required>
+
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required><br><br> 
+
+            <input type="submit" value="Registrar">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formularioRegistro').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this); // Captura todos los campos del formulario
+
+            // Realiza una solicitud POST al controlador
+            fetch('http://localhost:8080/api/registrar', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    // Maneja la respuesta del servidor (puede mostrar un mensaje de éxito, redirigir, etc.)
+                    alert(data); // Deberías recibir "Registro exitoso" o un mensaje de error
+                })
+                .catch(error => {
+                    console.error('Error al registrar máquina:', error);
+                });
+        });
+    </script>
+
+
+</body>
+
+</html>

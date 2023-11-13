@@ -14,16 +14,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table
-public class Persona {
+public class Orden {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String usuario;
-    private String email;
-    private String contraseña;
-    private String cargo;    
-    private String ciudad;
-    private String direccion;
-    private String telefono;
-    private Date fecha_ingreso;
+    private String codigo;
+    private String nombre;
+    private String mantenimiento;
+    private String tipo;    
+    private String descripcion;
+    private Date fecha_hora_inicio;
+    private Date fecha_hora_fin;
+    private String requerimientos;
+    private Date fecha_autor;
 }

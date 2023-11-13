@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/indicador.css">
+
+    <title>Barra de Navegación</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mantenimiento de Software</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil.png" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="formulario.html"><i class="fas fa-user-plus"></i> </i>Registro</a></li>
+                    <li><a href="editarUsuario.html"><i class="fas fa-pencil-alt"></i> </i>Edicion</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#">Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="formularioMaq.html"><i class="fas fa-plus"></i>Insertar maquina</a></li>
+                    <li><a href="editarMaq.html"><i class="fas fa-edit"></i>Modificar maquina</a></li>
+                    <li><a href="consultarMaq.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a>
+            </li>
+        </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+            <ul class="submenu">
+                <a href="historial.html"><i class="far fa-clock"></i> Historial</a>
+        </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+    <div class="content">
+        <table class="tabla">
+            <tr>
+                <td>Horas mantenimiento preventivo</td>
+                <td id="hmpCell"></td>
+            </tr>
+            <tr>
+                <td>Horas totales mantenimiento</td>
+                <td id="htmCell"></td>
+            </tr>
+            <tr>
+                <td>Índice de mantenimiento correctivo</td>
+                <td id="imcCell"></td>
+            </tr>
+            <tr>
+                <td>Índice de mantenimiento programado</td>
+                <td id="impCell"></td>
+            </tr>
+            <tr>
+                <td>Disponibilidad por averias</td>
+                <td>3</td>
+            </tr>
+        </table>
+
+
+        
+        <table class="tabla2">
+            <thead>
+                <tr>
+                    <th>Mantenimiento</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de fin</th>
+                    <th>Requerimientos</th>
+                    <th>Fecha de autorización</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-ordenes"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const codigoMaquina = localStorage.getItem("codigoMaquina");
+
+            fetch(`http://localhost:8080/api/ordenes/${codigoMaquina}`)
+                .then(response => response.json())
+                .then(ordenes => {
+                    const titulo = document.createElement('h1');
+                    titulo.className = 'titulo';
+                    titulo.textContent = `Histórico de Intervenciones - Máquina ${codigoMaquina}`;
+                    document.querySelector('.content').insertBefore(titulo, document.querySelector('.tabla2'));
+
+                    const tablaOrdenes = document.getElementById('tabla-ordenes');
+
+                    tablaOrdenes.innerHTML = '';
+
+                    let horasPreventivo = 0;
+                    let horasCorrectivo = 0;
+
+                    ordenes.forEach(orden => {
+                        const fechaInicio = new Date(orden.fecha_hora_inicio);
+                        fechaInicio.setHours(fechaInicio.getHours());
+
+                        const fechaFin = new Date(orden.fecha_hora_fin);
+                        fechaFin.setHours(fechaFin.getHours());
+
+                        const fecha = new Date(orden.fecha_autor)
+
+                        const horas = calcularDiferenciaHoras(fechaInicio, fechaFin);
+
+                        if (orden.tipo === "preventivo") {
+                            horasPreventivo += horas;
+                        } else if (orden.tipo === "correctivo") {
+                            horasCorrectivo += horas;
+                        }
+
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            
+                            <td>${orden.mantenimiento}</td>
+                            <td>${orden.tipo}</td>
+                            <td>${orden.descripcion}</td>
+                            <td>${fechaInicio.toISOString().replace('T', ' ').slice(0, 19)}</td>
+                            <td>${fechaFin.toISOString().replace('T', ' ').slice(0, 19)}</td>
+                            <td>${orden.requerimientos}</td>
+                            <td>${fecha.toISOString().replace('T', ' ').slice(0, 19)}</td>
+                        `;
+                        tablaOrdenes.appendChild(fila);
+                    });
+
+                    let horasTotales = horasPreventivo + horasCorrectivo
+                    let IMC = horasCorrectivo / horasTotales
+                    let IMP = horasPreventivo / horasTotales
+
+                    document.getElementById("imcCell").innerText = IMC.toFixed(4);
+                    document.getElementById("impCell").innerText = IMP.toFixed(4);
+                    document.getElementById("htmCell").innerText = horasTotales
+                    document.getElementById("hmpCell").innerText = horasPreventivo
+
+                    console.log("IMC:", IMC);
+                    console.log("IMP:", IMP);
+                })
+                .catch(error => console.error("Error al obtener órdenes:", error));
+
+            function calcularDiferenciaHoras(fechaInicio, fechaFin) {
+                const inicio = new Date(fechaInicio);
+                const fin = new Date(fechaFin);
+                const diferencia = Math.abs(fin - inicio);
+                return Math.floor(diferencia / (60 * 60 * 1000));
+            }
+        });
+    </script>
+
+</body>
+
+</html>
