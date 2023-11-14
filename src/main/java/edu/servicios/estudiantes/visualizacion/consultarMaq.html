@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../css/barra.css">
     <link rel="stylesheet" href="../css/maquina.css">
-    <title>Lista de Máquinas</title>
+    <title>Software de Mantenimiento</title>
 </head>
+
 <body>
     <div class="header">
-        <h1>Mantenimiento de Software</h1>
+        <h1>Software de Mantenimiento</h1>
     </div>
     <div class="sidebar">
         <div class="logo">
-            <img src="perfil.png" alt="Logo">
+            <img src="perfil2.jpg" alt="Logo">
         </div>
         <ul class="menu">
             <li class="menu-item">
@@ -35,23 +37,24 @@
             <li class="menu-item">
                 <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
                 <ul class="submenu">
-                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a></li>
-                </ul>
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a>
             </li>
-            <li class="menu-item">
-                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
-                <ul class="submenu">
-                    <a href="historial.html"><i class="far fa-clock"></i> Historial</a></li>
-                </ul>
-            </li>
+        </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+            <ul class="submenu">
+                <a href="historial.html"><i class="far fa-clock"></i> Historial</a>
+        </li>
+        </ul>
+        </li>
         </ul>
     </div>
 
 
-    <div class="content" style="margin-top: 100px;">
+    <div class="content">
         <h1>Lista de Máquinas</h1>
         <div class="maquinas-lista" id="maquinas-lista">
-            <!-- La lista de máquinas se mostrará aquí -->
         </div>
     </div>
 
@@ -60,7 +63,7 @@
             .then(response => response.json())
             .then(maquinas => {
                 const maquinasLista = document.getElementById('maquinas-lista');
-                
+
                 maquinas.forEach(maquina => {
                     const maquinaItem = document.createElement('div');
                     maquinaItem.classList.add('maquina-item');
@@ -70,8 +73,12 @@
                     imagen.alt = 'Imagen de la máquina';
                     maquinaItem.appendChild(imagen);
 
-                    const nombre = document.createElement('h2');
-                    nombre.innerText = maquina.nombre;
+                    const codigo = document.createElement('h2');
+                    codigo.innerText = maquina.codigo;
+                    maquinaItem.appendChild(codigo);
+
+                    const nombre = document.createElement('p');
+                    nombre.innerText = 'Nombre de máquina: ' + maquina.nombre;
                     maquinaItem.appendChild(nombre);
 
                     const marca = document.createElement('p');
@@ -82,7 +89,36 @@
                     modelo.innerText = 'Modelo: ' + maquina.modelo;
                     maquinaItem.appendChild(modelo);
 
-                    // Agrega más campos según tus necesidades
+                    const potencia = document.createElement('p');
+                    potencia.innerText = 'Potencia (Hp): ' + maquina.potencia;
+                    maquinaItem.appendChild(potencia);
+
+                    const productividad = document.createElement('p');
+                    productividad.innerText = 'Productividad (kg/h): ' + maquina.productividad;
+                    maquinaItem.appendChild(productividad);
+
+                    const voltaje = document.createElement('p');
+                    voltaje.innerText = 'Voltaje (voltios): ' + maquina.voltaje;
+                    maquinaItem.appendChild(voltaje);
+
+                    const peso = document.createElement('p');
+                    peso.innerText = 'peso (kg): ' + maquina.peso;
+                    maquinaItem.appendChild(peso);
+
+                    const estado = document.createElement('p');
+                    estado.innerText = 'Estado de adquisiión: ' + maquina.estado;
+                    maquinaItem.appendChild(estado);
+
+                    let fechaAd = new Date(maquina.fecha_adquisision)
+                    const anio = fechaAd.getFullYear();
+                    const mes = ('0' + (fechaAd.getMonth() + 1)).slice(-2); 
+                    const dia = ('0' + fechaAd.getDate()).slice(-2);
+
+                    const fechaFormateada = `${anio}/${mes}/${dia}`;
+
+                    const fecha = document.createElement('p');
+                    fecha.innerText = 'Fecha de adquisión: ' + fechaFormateada;
+                    maquinaItem.appendChild(fecha);
 
                     maquinasLista.appendChild(maquinaItem);
                 });
@@ -92,4 +128,5 @@
             });
     </script>
 </body>
+
 </html>

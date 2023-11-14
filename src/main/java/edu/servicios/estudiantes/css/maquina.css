@@ -1,42 +1,62 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5; 
+    color: #a36e1f;
+    margin: 0;
+}
+
+
 .content {
     margin-left: 290px;
+    margin-top: 100px;
     padding: 20px;
 }
+
 
 .maquinas-lista {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
+    justify-content: left;
 }
 
 .maquina-item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 20px;
     width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
+    background-color: #fff;
 }
 
 .maquina-item:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .maquina-item img {
-    width: 300px;
+    width: 100%;
     height: 200px;
     border-radius: 8px;
+    object-fit: cover;
 }
 
 .maquina-item h2 {
     margin-top: 15px;
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: #333;
 }
 
 .maquina-item p {
     margin: 10px 0;
-    color: #666;
+    color: #555;
+    font-size: 1.2em;
 }
+
+.maquina-item p:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
 

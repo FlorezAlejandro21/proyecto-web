@@ -1,48 +1,63 @@
 .header {
-    background-color: #0e58a8; /* Color de fondo del encabezado */
-    color: #fff; /* Color del texto del encabezado */
-
-    padding: 20px; 
-    position: fixed; 
-    top: 0; 
-    width: 100%; 
+    background-color: #013100;
+    color: #FFD492;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
-/* Estilo base para la barra de navegación */
+
 .sidebar {
     width: 250px;
-    background-color: #007BFF;
+    background-color: #44802A;
     color: #fff;
     position: fixed;
+    top: 120px; 
     height: 90%;
     padding: 20px;
 }
 
-/* Estilo del logotipo */
-.logo img {
-    width: 100%;
-    max-width: 150px;
+.logo {
+    text-align: center; 
     margin-bottom: 20px;
 }
 
-/* Estilo de la lista de menú principal */
+.logo img {
+    width: 100%;
+    max-width: 150px;
+    height: auto; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease-in-out; 
+}
+
+.logo img:hover {
+    transform: scale(1.1); 
+}
+
+
 .menu {
     list-style: none;
     padding: 0;
 }
 
-/* Estilo de los elementos de menú */
+
 .menu-item {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .menu-item a {
     color: #fff;
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    padding: 5px; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, color 0.3s; 
 }
 
-/* Estilo del menú desplegable */
+
 .submenu {
     list-style: none;
     padding: 0;
@@ -56,15 +71,27 @@
 .submenu a {
     color: #ccc;
     text-decoration: none;
+    transition: color 0.3s; 
 }
 
-.menu-item a {
-    display: flex; /* Utiliza flexbox para alinear verticalmente */
-    align-items: center; /* Centra verticalmente los elementos hijos */
-    text-decoration: none; /* Elimina la decoración de texto predeterminada */
-}
 
 .menu-item i {
-    margin-right: 10px; /* Espacio entre el ícono y el texto (ajusta según sea necesario) */
+    margin-right: 10px;
 }
 
+
+.menu-item a:hover {
+    background-color: #6C2F11;
+    color: #FFD492;
+}
+
+
+.submenu a:hover {
+    color: #FFD492;
+}
+
+
+.menu-item.active a {
+    background-color: #6C2F11;
+    color: #FFD492;
+}

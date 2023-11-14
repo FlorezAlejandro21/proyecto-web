@@ -1,57 +1,68 @@
-/* Estilos para el formulario */
 .content {
-    margin-left: 320px; /* Margen izquierdo de 20px para separar del menú lateral */
+    margin-left: 320px; 
     margin-top: 100px;
-    padding: 20px; /* Espacio alrededor del formulario */
-    width: 70%; /* Ancho del contenido, ajusta según tus necesidades */
-    box-sizing: border-box; /* Incluye el relleno en el ancho total */
+    padding: 20px; 
+    width: 70%; 
+    box-sizing: border-box; 
 }
 
-/* Aplica un estilo general al formulario */
+
 form {
     max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border: 2px solid #ddd; 
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para etiquetas */
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    color: #44802A; 
 }
 
-/* Estilo para campos de entrada */
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
 select,
 input[type="number"],
 input[type="date"] {
-    width: 90%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    width: 100%; 
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
-/* Estilo para el botón de envío */
 input[type="submit"] {
-    background-color: #007BFF;
+    background-color: #6C2F11; 
     color: #fff;
-    padding: 10px 20px;
+    padding: 15px 20px;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Cambia el color del botón cuando se coloca el cursor sobre él */
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #AD0100; 
 }
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5; 
+    color: #a36e1f;
+    margin: 0;
+}
+
+
+
+
+

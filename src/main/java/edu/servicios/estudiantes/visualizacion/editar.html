@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../css/barra.css">
     <link rel="stylesheet" href="../css/formulario.css">
-    <title>Editar Estudiante</title>
+    <title>Software de Mantenimiento</title>
 </head>
 
 <body>
     <div class="header">
-        <h1>Mantenimiento de Software</h1>
+        <h1>Software de Mantenimiento</h1>
     </div>
     <div class="sidebar">
         <div class="logo">
-            <img src="perfil.png" alt="Logo">
+            <img src="perfil2.jpg" alt="Logo">
         </div>
         <ul class="menu">
             <li class="menu-item">
@@ -83,7 +83,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         if (id) {
-            // Realiza una solicitud para obtener los datos del estudiante por su ID
             fetch(`http://localhost:8080/api/persona/${id}`)
                 .then(response => response.json())
                 .then(persona => {
@@ -103,7 +102,6 @@
         document.getElementById('formularioRegistro').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Captura los valores del formulario
             const usuario = document.getElementById('usuario').value;
             const email = document.getElementById('email').value;
             const contrasenia = document.getElementById('contrasenia').value;
@@ -113,7 +111,6 @@
             const telefono = document.getElementById('telefono').value;
             const fecha = new Date()
 
-            // Crea un objeto con los datos
             const persona = {
                 usuario: usuario,
                 email: email,
@@ -125,7 +122,6 @@
                 fecha_ingreso: fecha
             };
 
-            // Realiza una solicitud PUT al endpoint /actualiza/{id}
             fetch(`http://localhost:8080/api/actualiza/${id}`, {
                 method: 'PUT',
                 headers: {
