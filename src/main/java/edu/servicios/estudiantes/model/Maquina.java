@@ -28,5 +28,6 @@ public class Maquina {
     private String peso;
     private String estado;
     private Date fecha_adquisision;
-    private byte[] imagen;
+    private byte[] imagen;    
+    private byte[] manual;
 }

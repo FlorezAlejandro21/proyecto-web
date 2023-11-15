@@ -27,4 +27,5 @@ public class Orden {
     private Date fecha_hora_fin;
     private String requerimientos;
     private Date fecha_autor;
+    private byte[] costos;
 }

@@ -57,7 +57,7 @@
         </ul>
     </div>
     <div class="content">
-        <h1>Registro de Maquinas</h1>
+        <h1>Editar Maquina</h1>
         <form id="formularioRegistro" enctype="multipart/form-data">
             <label for="nombre">Nombre de maquina:</label>
             <input type="text" id="nombre" name="nombre" required><br>
@@ -90,7 +90,13 @@
             <input type="text" id="fecha" name="fecha" placeholder="yyyy-MM-dd" required>
 
             <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" required><br><br>
+            <img id="imagenMostrar" src="" alt="Imagen de la máquina"><br><br>
+
+            <input type="file" id="imagen" name="imagen" accept="image/*"><br><br>
+
+            <!-- Agregar un campo oculto para indicar si se debe mantener la imagen existente -->
+            <input type="hidden" id="mantenerImagen" name="mantenerImagen" value="false">
+
 
             <label for="manual">Adjuntar manual (PDF):</label>
             <input type="file" id="manual" name="manual" accept=".pdf" required><br><br>
@@ -100,23 +106,72 @@
     </div>
 
     <script>
-        document.getElementById('formularioRegistro').addEventListener('submit', function (e) {
-            e.preventDefault();
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            fetch(`http://localhost:8080/api/maquina/${id}`)
+                .then(response => response.json())
+                .then(maquina => {
+                    document.getElementById('nombre').value = maquina.nombre;
+                    document.getElementById('codigo').value = maquina.codigo;
+                    document.getElementById('marca').value = maquina.marca;
+                    document.getElementById('modelo').value = maquina.modelo;
+                    document.getElementById('potencia').value = maquina.potencia;
+                    document.getElementById('productividad').value = maquina.productividad;
+                    document.getElementById('voltaje').value = maquina.voltaje;
+                    document.getElementById('peso').value = maquina.peso;
+                    document.getElementById('estado').value = maquina.estado;
+                    document.getElementById('fecha').value = maquina.fecha_adquisision;
 
-            const formData = new FormData(this);
+                    const imagenElement = document.getElementById('imagenMostrar');
+                    const imagenInput = document.getElementById('imagen');
+                    const mantenerImagenInput = document.getElementById('mantenerImagen');
 
-            fetch('http://localhost:8080/api/registrar', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
+                    imagenInput.addEventListener('change', function () {
+                        const file = this.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                imagenElement.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                            mantenerImagenInput.value = "false";
+                        } else {
+                            mantenerImagenInput.value = "true";
+                        }
+                    });
+
+                    document.getElementById('manual').value = "data:application/pdf;base64," + maquina.manual;
                 })
                 .catch(error => {
-                    console.error('Error al registrar máquina:', error);
+                    console.error('Error al obtener datos de la maquina:', error);
+                });
+        }
+        document.getElementById('formularioRegistro').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const url = `http://localhost:8080/api/actualizar-maquina/${id}`;
+            const formData = new FormData(this);
+
+            fetch(url, {
+                method: 'PUT',
+                body: formData,
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('Maquina actualizada exitosamente.');
+                        window.location.href = 'consultarMaq.html';
+                    } else if (response.status === 404) {
+                        alert('Maquina no encontrada.');
+                    } else {
+                        alert('Hubo un error al actualizar la persona.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al enviar la solicitud:', error);
                 });
         });
+
     </script>
 
 

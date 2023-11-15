@@ -35,9 +35,9 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
                 <ul class="submenu">
-                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a>
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Generar Orden</a>
             </li>
         </ul>
         </li>
@@ -46,13 +46,21 @@
             <ul class="submenu">
                 <a href="historial.html"><i class="far fa-clock"></i> Historial</a>
         </li>
+
         </ul>
+        <li class="menu-item">
+            <a href="#"><i class="fas fa-tasks"></i> Plan de Mantenimiento</a>
+            <ul class="submenu">
+                <a href="plan.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a>
+        </li>
+        </ul>
+        </li>
         </li>
         </ul>
     </div>
 
     <div class="container">
-        <form id="ordenForm" action="#" method="post">
+        <form id="ordenForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="codigo">Codigo de maquina:</label>
                 <input type="text" id="codigo" name="codigo" required>
@@ -108,6 +116,11 @@
             </div>
 
             <div class="form-group">
+                <label for="costos">Agregar costos:</label>
+                <input type="file" id="costos" name="costos" accept="image/*, .pdf" required><br><br>
+            </div>
+
+            <div class="form-group">
                 <label for="fechaAutorizacion">Fecha de autorización:</label>
                 <input type="text" id="fechaAutorizacion" name="fechaAutorizacion" value="" readonly>
             </div>
@@ -130,12 +143,12 @@
                 const tipoMantenimiento = tipoMantenimientoSelect.value;
 
                 const tipo = document.querySelector('input[name="tipoMantenimiento"]:checked').value;
-                const descripcion = document.getElementById('descripcion').value;
+                // const descripcion = document.getElementById('descripcion').value;
                 const inicioFecha = document.getElementById('inicioFecha').value;
                 const horaInicio = document.getElementById('horaInicio').value;
                 const terminoFecha = document.getElementById('terminoFecha').value;
                 const horaTermino = document.getElementById('horaTermino').value;
-                const requerimientos = document.getElementById('requerimientos').value;
+                // const requerimientos = document.getElementById('requerimientos').value;
                 const fecha = new Date()
 
                 const fechaHoraIniString = `${inicioFecha}T${horaInicio}:00.000Z`;
@@ -149,28 +162,33 @@
 
                 console.log(fechaHoraIni)
                 console.log(fechaHoraFin)
+                console.log(fechaHoraIni.toISOString())
 
-                const orden = {
-                    codigo: codigo,
-                    nombre: nombre,
-                    mantenimiento: tipoMantenimiento,
-                    tipo: tipo,
-                    descripcion: descripcion,
-                    fecha_hora_inicio: fechaHoraIni,
-                    fecha_hora_fin: fechaHoraFin,
-                    requerimientos: requerimientos,
-                    fecha_autor: fecha
-                }
+                // const orden = {
+                //     codigo: codigo,
+                //     nombre: nombre,
+                //     mantenimiento: tipoMantenimiento,
+                //     tipo: tipo,
+                //     descripcion: descripcion,
+                //     fecha_hora_inicio: fechaHoraIni,
+                //     fecha_hora_fin: fechaHoraFin,
+                //     requerimientos: requerimientos,
+                //     fecha_autor: fecha
+                // }
+
+                const formData = new FormData(this);
+                // formData.append('codigo', codigo)
+                formData.append('mantenimiento', tipoMantenimiento)
+                formData.append('tipo', tipo)
+                formData.append('fecha_hora_inicio', fechaHoraIni.toISOString()) // Convertir a formato ISO
+                formData.append('fecha_hora_fin', fechaHoraFin.toISOString()) // Convertir a formato ISO
 
 
                 fetch("http://localhost:8080/api/crear-orden", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(orden)
+                    body: formData
                 })
-                    .then(response => response.json())
+                    .then(response => response.text())
                     .then(data => {
                         alert("Orden creada con exito")
                     })
@@ -182,7 +200,7 @@
             var dd = String(fechaActual.getDate()).padStart(2, '0');
             var mm = String(fechaActual.getMonth() + 1).padStart(2, '0');
             var yyyy = fechaActual.getFullYear();
-            var fechaFormateada = dd + '/' + mm + '/' + yyyy;
+            var fechaFormateada = yyyy + '-' + mm + '-' + dd;
             fechaAutorizacionInput.value = fechaFormateada;
         });
     </script>

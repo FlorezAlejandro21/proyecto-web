@@ -35,9 +35,9 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
                 <ul class="submenu">
-                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a>
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Generar Orden</a>
             </li>
         </ul>
         </li>
@@ -47,6 +47,13 @@
                 <a href="historial.html"><i class="far fa-clock"></i> Historial</a>
         </li>
         </ul>
+        <li class="menu-item">
+            <a href="#"><i class="fas fa-tasks"></i> Plan de Mantenimiento</a>
+            <ul class="submenu">
+                <a href="plan.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a>
+        </li>
+        </ul>
+        </li>
         </li>
         </ul>
     </div>
@@ -75,8 +82,8 @@
         </table>
 
 
-        
-        <table class="tabla2">
+
+        <table class="tabla2" style="margin-left: 100px;">
             <thead>
                 <tr>
                     <th>Mantenimiento</th>
@@ -86,6 +93,8 @@
                     <th>Fecha de fin</th>
                     <th>Requerimientos</th>
                     <th>Fecha de autorización</th>
+                    <th>Costos</th>
+
                 </tr>
             </thead>
             <tbody id="tabla-ordenes"></tbody>
@@ -138,6 +147,12 @@
                             <td>${fechaFin.toISOString().replace('T', ' ').slice(0, 19)}</td>
                             <td>${orden.requerimientos}</td>
                             <td>${fecha.toISOString().replace('T', ' ').slice(0, 19)}</td>
+                            <td>
+                                 <a href="${orden.costos.startsWith('data:') ? orden.costos : 'data:application/pdf;base64,' + orden.costos}" 
+                                download="${orden.tipo === 'pdf' ? 'documento.pdf' : 'imagen.jpg'}">
+                                Ver Documento
+                                </a>
+                            </td>
                         `;
                         tablaOrdenes.appendChild(fila);
                     });

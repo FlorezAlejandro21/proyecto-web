@@ -36,15 +36,21 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="#"><i class="fas fa-tasks"></i>Ordenes de trabajo</a>
+                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
                 <ul class="submenu">
-                    <a href="orden.html"><i class="fas fa-wrench"></i>Orden Preventiva</a></li>
+                    <a href="orden.html"><i class="fas fa-wrench"></i>Generar Orden</a></li>
                 </ul>
             </li>
             <li class="menu-item">
                 <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
                 <ul class="submenu">
                     <a href="historial.html"><i class="far fa-clock"></i> Historial</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i> Plan de Mantenimiento</a>
+                <ul class="submenu">
+                    <a href="plan.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a></li>
                 </ul>
             </li>
         </ul>
@@ -82,6 +88,7 @@
                             <td>${persona.cargo}</td>
                             <td>
                                 <button onclick="editarEstudiante(${persona.id})">Editar</button>
+                                <button onclick="borrarEstudiante(${persona.id})">Borrar</button>
                             </td>
                         `;
                         tablaEstudiantes.appendChild(fila);
@@ -94,6 +101,27 @@
 
         function editarEstudiante(id) {
             window.location.href = `editar.html?id=${id}`;
+        }
+
+        function borrarEstudiante(id) {
+            if (confirm(`¿Estás seguro de que deseas borrar la persona con ID ${id}?`)) {
+                fetch(`http://localhost:8080/api/borrar/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.status === 204) {
+                            alert('Persona borrada exitosamente.');
+                            cargarEstudiantes();
+                        } else if (response.status === 404) {
+                            alert('Persona no encontrado.');
+                        } else {
+                            alert('Hubo un error al borrar el estudiante.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la solicitud:', error);
+                    });
+            }
         }
 
         window.onload = cargarEstudiantes;

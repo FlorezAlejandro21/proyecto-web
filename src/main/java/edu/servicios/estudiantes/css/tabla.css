@@ -41,3 +41,31 @@ button {
 button:hover {
     background-color: #6C2F11;
 }
+
+.amarillo {
+    background-color: yellow;
+}
+
+
+.fila-amarilla td {
+    background-color: yellow;
+    color: black;
+}
+
+.rojo {
+    background-color: red; 
+}
+
+.fila-roja td{
+    background-color: red;
+    color: black;
+}
+
+.naranja {
+    background-color: orange; 
+}
+
+.fila-naranja td {
+    background-color: orange; 
+    color: black;
+}

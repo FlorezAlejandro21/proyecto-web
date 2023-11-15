@@ -6,29 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Login Page</title>
+    <title>Login Software de Mantenimiento</title>
 </head>
 
 <body>
 
     <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form id="registerForm">
-                <h1>Registrate</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-                <span>o utiliza correo electrónico</span>
-                <input type="text" id="nombre" placeholder="Name" required>
-                <input type="email" id='email' placeholder="Email" required>
-                <input type="text" id="cargo" placeholder="Cargo/Dependencia" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button>Registrar </button>
-            </form>
-        </div>
         <div class="form-container sign-in">
             <form id="loginForm">
                 <h1>Sign In</h1>
@@ -47,86 +30,35 @@
         </div>
         <div class="toggle-container">
             <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Ingrese sus datos personales para utilizar todas las funciones del sitio.</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
                 <div class="toggle-panel toggle-right">
                     <h1>¡Hola, amigo!</h1>
-                    <p>Regístrate con sus datos personales para utilizar todas las funciones del sitio</p>
-                    <button class="hidden" id="register">Inscribirse</button>
+                    <p>Ingresa con sus datos personales para utilizar todas las funciones del sitio</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // Función para el inicio de sesión
-        function iniciarSesion() {
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("loginForm").addEventListener("submit", function (event) {
+                event.preventDefault(); 
 
-            var url = "http://localhost:8080/api/login/" + "prueba@ejemplo.com" + "/" + "123";
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
 
-            fetch(url)
-                .then(response => {
-                    if (response.status === 200) {
-                        alert("Inicio de sesión exitoso");
-                        window.location.href = "pag2.html";
-                    } else {
-                        alert("Inicio de sesión fallido");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        }
+                var usuarioCorrecto = "admin@gmail.com";
+                var passwordCorrecto = "admin";
 
-        // Función para el registro
-        function registrar() {
-            event.preventDefault();
-            var nombre = document.getElementById("nombre").value;
-            var email = document.getElementById("email").value;
-            var cargo = document.getElementById("cargo").value;
-            var password = document.getElementById("password").value;
-
-            var datosRegistro = {
-                nombre: nombre,
-                email: email,
-                cargo: cargo,
-                contrasenia: password
-            };
-
-            fetch("http://localhost:8080/api/crear", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(datosRegistro)
-            })
-                .then(response => {
-                    if (response.status === 201) {
-                        alert("Registro exitoso");
-                    } else {
-                        alert("Registro fallido");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        }
-
-        // Agregar manejadores de eventos para los formularios
-        document.getElementById("loginForm").addEventListener("submit", function () {
-            iniciarSesion();
-        });
-
-        document.getElementById("registerForm").addEventListener("submit", function (event) {
-            registrar();
+                if (email === usuarioCorrecto && password === passwordCorrecto) {
+                    alert("Inicio de sesión exitoso");
+                    window.location.href = "pag2.html"; 
+                } else {
+                    alert("Inicio de sesión incorrecto");
+                }
+            });
         });
     </script>
+
 
 </body>
 
