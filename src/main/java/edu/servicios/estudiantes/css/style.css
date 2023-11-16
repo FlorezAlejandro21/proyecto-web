@@ -8,8 +8,8 @@
 }
 
 body {
-    background-color: #44802A;
-    background: linear-gradient(to right, #6C2F11, #44802A);
+    background-color: #071F40;
+    background: linear-gradient(to right, #04325B, #038587);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,7 +18,7 @@ body {
 }
 
 .container {
-    background-color: #fff;
+    background-color: #F2F2F2;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
@@ -40,7 +40,7 @@ body {
 }
 
 .container a {
-    color: #df8d14;
+    color: #015A95;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
@@ -66,7 +66,7 @@ body {
 }
 
 .container form {
-    background-color: #fff;
+    background-color: #F2F2F2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,7 +87,7 @@ body {
 }
 
 .container input[type="submit"] {
-    background-color: #6C2F11; 
+    background-color: #038587; 
     color: #fff;
     padding: 15px 20px;
     border: none;
@@ -95,7 +95,9 @@ body {
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 63px;
 }
+
 .form-container {
     position: absolute;
     top: 0;
@@ -171,9 +173,9 @@ body {
 }
 
 .toggle {
-    background-color: #6C2F11;
+    background-color: #071F40;
     height: 100%;
-    background: linear-gradient(to right, #AD0100, #6C2F11);
+    background: linear-gradient(to right, #015A95, #071F40);
     color: #fff;
     position: relative;
     left: -100%;

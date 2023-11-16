@@ -105,14 +105,16 @@
                             <td>${maquina.nombre}</td>
                             <td>${maquina.codigo}</td>
                             <td>${fechaFormateada}</td>
-                            <td class="${uso > 29 ? 'rojo' : ''} ${uso > 27 ? 'naranja' : ''} ${uso > 5 ? 'amarillo' : ''}">${uso}</td>
+                            <td class="${uso < 5 ? 'verde' : ''} ${uso > 29 ? 'rojo' : ''} ${uso > 27 ? 'naranja' : ''} ${uso > 5 ? 'amarillo' : ''}">${uso}</td>
                             <td>${fechaProximoMantenimientoFormateada}</td>
                             <td>${diasRestantes - uso}</td>
                             
                         `;
                         if (uso > 29) {
                             fila.classList.add('fila-roja');
-                        } else if (uso > 27) {
+                        } else if (uso < 5) {
+                            fila.classList.add('fila-verde');
+                        }else if (uso > 27) {
                             fila.classList.add('fila-naranja');
                         }
                         else if (uso > 5) {

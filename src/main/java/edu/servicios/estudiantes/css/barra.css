@@ -1,6 +1,7 @@
+
 .header {
-    background-color: #013100;
-    color: #FFD492;
+    background-color: #071F40;
+    color: #F2F2F2;
     padding: 20px;
     position: fixed;
     top: 0;
@@ -10,8 +11,8 @@
 
 .sidebar {
     width: 250px;
-    background-color: #44802A;
-    color: #fff;
+    background-color: #04325B;
+    color: #F2F2F2;
     position: fixed;
     top: 120px; 
     height: 90%;
@@ -81,17 +82,17 @@
 
 
 .menu-item a:hover {
-    background-color: #6C2F11;
-    color: #FFD492;
+    background-color: #038587;
+    color: #015A95;
 }
 
 
 .submenu a:hover {
-    color: #FFD492;
+    color: #015A95;
 }
 
 
 .menu-item.active a {
-    background-color: #6C2F11;
-    color: #FFD492;
+    background-color: #038587;
+    color: #015A95;
 }

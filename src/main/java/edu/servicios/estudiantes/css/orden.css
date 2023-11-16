@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5; 
-    color: #a36e1f;
+    background-color: white; 
+    color: #015a92;
     margin: 0;
 }
 
@@ -24,7 +24,7 @@ body {
 label {
     display: block;
     margin-bottom: 8px;
-    color: #44802A; 
+    color: #04325B; 
     font-weight: bold; 
 }
 
@@ -41,7 +41,7 @@ textarea {
 }
 
 input[type="submit"] {
-    background-color: #44802A; 
+    background-color: #038587; 
     color: #FFF;
     padding: 12px 20px;
     border: none;
@@ -51,7 +51,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #6C2F11; 
+    background-color: #015A95; 
 }
 
 .form-group div {

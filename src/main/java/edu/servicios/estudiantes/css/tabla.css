@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5; 
-    color: #a36e1f;
+    background-color: white;
+    color: #071F40;
     margin: 0;
 }
 
@@ -13,24 +13,24 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #44802A;
-    color: #FFD492;
+    background-color: #c2e2fc;
+    color: #04325B;
 }
 
 th, td {
-    border: 1px solid #6C2F11;
+    border: 1px solid black;
     padding: 12px;
     text-align: center;
 }
 
 th {
-    background-color: #013100;
-    color: #FFD492;
+    background-color: #015A95;
+    color: #F2F2F2;
 }
 
 button {
-    background-color: #AD0100;
-    color: #FFD492;
+    background-color: #038587;
+    color: #F2F2F2;
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -39,8 +39,9 @@ button {
 }
 
 button:hover {
-    background-color: #6C2F11;
+    background-color: #071F40;
 }
+
 
 .amarillo {
     background-color: yellow;
@@ -67,5 +68,14 @@ button:hover {
 
 .fila-naranja td {
     background-color: orange; 
+    color: black;
+}
+
+.verde {
+    background-color: orange; 
+}
+
+.fila-verde td {
+    background-color: green; 
     color: black;
 }

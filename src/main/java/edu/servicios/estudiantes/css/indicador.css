@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5; 
-    color: #a36e1f;
+    background-color: white; 
+    color: #015A95;
     margin: 0;
 }
 
@@ -29,7 +29,7 @@ body {
 }
 
 .tabla th {
-    background-color: #013100;
+    background-color: #038587;
     color: #FFD492;
 }
 
@@ -61,8 +61,8 @@ body {
 }
 
 .tabla2 th {
-    background-color: #44802A;
-    color: #FFD492;
+    background-color: #04325b;
+    color: white;
 }
 
 .tabla2 tbody tr:hover {
