@@ -66,13 +66,9 @@
             <label for="contrasenia">Contraseña:</label>
             <input type="password" id="contrasenia" name="contrasenia" required><br>
 
-            <label for="cargo">Cargo:</label>
-            <select id="cargo" name="cargo">
-                <option value="" disabled selected>Seleccione un cargo </option>
-                <option value="Gerente">Gerente</option>
-                <option value="Administrador">Administrador</option>
-                <option value="Operario">Operario</option>
-            </select><br>
+            
+            <label for="maq">Cargo / Maquina:</label>
+            <input type="text" id="maq" name="maq" required><br>
 
             <label for="usuario">Ciudad:</label>
             <input type="text" id="ciudad" name="ciudad" required><br>
@@ -94,11 +90,12 @@
             const usuario = document.getElementById('usuario').value;
             const email = document.getElementById('email').value;
             const contrasenia = document.getElementById('contrasenia').value;
-            const cargo = document.getElementById('cargo').value;
+            const cargo = document.getElementById('maq').value;
             const ciudad = document.getElementById('ciudad').value;
             const direccion = document.getElementById('direccion').value;
             const telefono = document.getElementById('telefono').value;
             const fecha = new Date()
+
 
             const persona = {
                 usuario: usuario,

@@ -20,23 +20,28 @@
         </div>
         <ul class="menu">
             <li class="menu-item">
-                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
                 <ul class="submenu">
-                    <a href="verOrden.html"><i class="fas fa-wrench"></i>Generar Orden</a>
-
+                    <li><a href="verUsuarios.html"><i class="fas fa-pencil-alt"></i> </i>Usuarios</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="verMaquinas.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
                 </ul>
             </li>
             <li class="menu-item">
                 <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
                 <ul class="submenu">
-                    <a href="verHistorial.html"><i class="far fa-clock"></i> Historial</a>
-
-                </ul>
+                    <a href="verHistorial2.html"><i class="far fa-clock"></i> Historial</a></ul>
             </li>
+
+
             <li class="menu-item">
                 <a href="#"><i class="fas fa-tasks"></i> Plan de Mantenimiento</a>
                 <ul class="submenu">
-                    <a href="verPlan2.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a>
+                    <a href="verPlan.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a>
                 </ul>
             </li>
         </ul>
@@ -120,7 +125,7 @@
 
             localStorage.setItem("codigoMaquina", codigo);
 
-            window.location.href = "verIndicadores.html";
+            window.location.href = "verIndicadores2.html";
         });
 
 
