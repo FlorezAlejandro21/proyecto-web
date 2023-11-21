@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/orden.css">
+    <title>Software de Mantenimiento</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Software de Mantenimiento</h1>
+    </div>
+
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil2.jpg" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="verOrden.html"><i class="fas fa-wrench"></i>Generar Orden</a>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+                <ul class="submenu">
+                    <a href="verHistorial.html"><i class="far fa-clock"></i> Historial</a>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <form id="ordenForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="codigo">Codigo de maquina:</label>
+                <input type="text" id="codigo" name="codigo" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Responsable:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Mantenimiento:</label>
+                <select id="tipoMantenimientoS" name="tipoMantenimientoS" required>
+                    <option value="interno">Interno</option>
+                    <option value="externo">Externo</option>
+                </select>
+            </div>
+
+            <div class="form-group inline-radio">
+                <div>
+                    Preventivo<input type="radio" id="preventivo" name="tipoMantenimiento" value="preventivo" required>
+                </div>
+                <div>
+                    Correctivo<input type="radio" id="correctivo" name="tipoMantenimiento" value="correctivo" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="descripcion">Descripción del fallo:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Horario:</label>
+                <div>
+                    <label for="inicioFecha">Inicio:</label>
+                    <input type="date" id="inicioFecha" name="inicioFecha" required>
+                    <label for="horaInicio">a las</label>
+                    <input type="time" id="horaInicio" name="horaInicio" required>
+                </div>
+                <br>
+                <div>
+                    <label for="terminoFecha">Termino:</label>
+                    <input type="date" id="terminoFecha" name="terminoFecha" required>
+                    <label for="horaTermino">a las</label>
+                    <input type="time" id="horaTermino" name="horaTermino" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requerimientos">Requerimientos:</label>
+                <textarea id="requerimientos" name="requerimientos" rows="4" cols="50" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="costos">Agregar costos:</label>
+                <input type="file" id="costos" name="costos" accept="image/*, .pdf" required><br><br>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaAutorizacion">Fecha de autorización:</label>
+                <input type="text" id="fechaAutorizacion" name="fechaAutorizacion" value="" readonly>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar Orden">
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var formulario = document.getElementById("ordenForm");
+
+            formulario.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const codigo = document.getElementById('codigo').value;
+                const nombre = document.getElementById('nombre').value;
+                var tipoMantenimientoSelect = document.getElementById('tipoMantenimientoS');
+                const tipoMantenimiento = tipoMantenimientoSelect.value;
+
+                const tipo = document.querySelector('input[name="tipoMantenimiento"]:checked').value;
+                // const descripcion = document.getElementById('descripcion').value;
+                const inicioFecha = document.getElementById('inicioFecha').value;
+                const horaInicio = document.getElementById('horaInicio').value;
+                const terminoFecha = document.getElementById('terminoFecha').value;
+                const horaTermino = document.getElementById('horaTermino').value;
+                // const requerimientos = document.getElementById('requerimientos').value;
+                const fecha = new Date()
+
+                const fechaHoraIniString = `${inicioFecha}T${horaInicio}:00.000Z`;
+                const fechaHoraIni = new Date(fechaHoraIniString);
+
+                const fechaHoraFinString = `${terminoFecha}T${horaTermino}:00.000Z`;
+                const fechaHoraFin = new Date(fechaHoraFinString);
+
+                fechaHoraIni.setHours(fechaHoraIni.getHours() + 5)
+                fechaHoraFin.setHours(fechaHoraFin.getHours() + 5)
+
+                console.log(fechaHoraIni)
+                console.log(fechaHoraFin)
+                console.log(fechaHoraIni.toISOString())
+
+                // const orden = {
+                //     codigo: codigo,
+                //     nombre: nombre,
+                //     mantenimiento: tipoMantenimiento,
+                //     tipo: tipo,
+                //     descripcion: descripcion,
+                //     fecha_hora_inicio: fechaHoraIni,
+                //     fecha_hora_fin: fechaHoraFin,
+                //     requerimientos: requerimientos,
+                //     fecha_autor: fecha
+                // }
+
+                const formData = new FormData(this);
+                // formData.append('codigo', codigo)
+                formData.append('mantenimiento', tipoMantenimiento)
+                formData.append('tipo', tipo)
+                formData.append('fecha_hora_inicio', fechaHoraIni.toISOString()) // Convertir a formato ISO
+                formData.append('fecha_hora_fin', fechaHoraFin.toISOString()) // Convertir a formato ISO
+
+
+                fetch("http://localhost:8080/api/crear-orden", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert("Orden creada con exito")
+                    })
+                    .catch(error => console.error("Error al enviar la orden:", error));
+            });
+
+            const fechaAutorizacionInput = document.getElementById("fechaAutorizacion");
+            var fechaActual = new Date();
+            var dd = String(fechaActual.getDate()).padStart(2, '0');
+            var mm = String(fechaActual.getMonth() + 1).padStart(2, '0');
+            var yyyy = fechaActual.getFullYear();
+            var fechaFormateada = yyyy + '-' + mm + '-' + dd;
+            fechaAutorizacionInput.value = fechaFormateada;
+        });
+    </script>
+
+</body>
+
+</html>

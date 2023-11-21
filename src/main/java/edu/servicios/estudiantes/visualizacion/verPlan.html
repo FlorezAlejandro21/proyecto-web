@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/tabla.css">
+    <title>Software de Mantenimiento</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Software de Mantenimiento</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil2.jpg" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user"></i>Perfil</a>
+                <ul class="submenu">
+                    <li><a href="verUsuarios.html"><i class="fas fa-pencil-alt"></i> </i>Usuarios</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-cogs"></i>Maquinas</a>
+                <ul class="submenu">
+                    <li><a href="verMaquinas.html"><i class="fas fa-search"></i>Consultar maquina</a></li>
+                </ul>
+            </li>
+
+
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-tasks"></i> Plan de Mantenimiento</a>
+                <ul class="submenu">
+                    <a href="verPlan.html"><i class="fas fa-clipboard-check"></i>Mantenimiento Preventivo</a>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content" style="margin-top: 111px;">
+        <h1 style="text-align: center;">Plan de mantenimiento</h1>
+        <h2 style="text-align: center;">Mantenimiento preventivo para maquinas de producción cada 30 días</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del equipo</th>
+                    <th>Codigo del equipo</th>
+                    <th>Fecha ultimo <br> mantenimiento</th>
+                    <th>Dias de uso <br> desde el ultimo <br>mantenimiento</th>
+                    <th>Fecha proximo <br> mantenimiento</th>
+                    <th>Dias proximo <br> mantenimiento</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-estudiantes"></tbody>
+        </table>
+    </div>
+    <script>
+        function cargarEstudiantes() {
+            fetch('http://localhost:8080/api/maquinas')
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+
+                    tablaEstudiantes.innerHTML = '';
+
+                    data.forEach(maquina => {
+                        const fechaAdquisicion = new Date(maquina.fecha_adquisision);
+                        const fechaFormateada = `${fechaAdquisicion.getFullYear()}/${(fechaAdquisicion.getMonth() + 1)
+                            .toString()
+                            .padStart(2, '0')}/${fechaAdquisicion.getDate().toString().padStart(2, '0')}`;
+
+                        const fechaProximoMantenimiento = new Date(fechaAdquisicion);
+                        fechaProximoMantenimiento.setDate(fechaProximoMantenimiento.getDate() + 29);
+                        const fechaProximoMantenimientoFormateada = `${fechaProximoMantenimiento.getFullYear()}/${(
+                            fechaProximoMantenimiento.getMonth() + 1
+                        )
+                            .toString()
+                            .padStart(2, '0')}/${fechaProximoMantenimiento.getDate().toString().padStart(2, '0')}`;
+
+                        const diferenciaEnMilisegundos = fechaProximoMantenimiento - fechaAdquisicion;
+                        const diasRestantes = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+                        const uso = Math.floor(Math.random() * 35) + 1
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${maquina.nombre}</td>
+                            <td>${maquina.codigo}</td>
+                            <td>${fechaFormateada}</td>
+                            <td class="${uso < 5 ? 'verde' : ''} ${uso > 29 ? 'rojo' : ''} ${uso > 27 ? 'naranja' : ''} ${uso > 5 ? 'amarillo' : ''}">${uso}</td>
+                            <td>${fechaProximoMantenimientoFormateada}</td>
+                            <td>${diasRestantes - uso}</td>
+                            
+                        `;
+                        if (uso > 29) {
+                            fila.classList.add('fila-roja');
+                        } else if (uso < 5) {
+                            fila.classList.add('fila-verde');
+                        } else if (uso > 27) {
+                            fila.classList.add('fila-naranja');
+                        }
+                        else if (uso > 5) {
+                            fila.classList.add('fila-amarilla');
+                        }
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar maquinas:', error);
+                });
+        }
+        window.onload = cargarEstudiantes;
+    </script>
+</body>
+
+</html>

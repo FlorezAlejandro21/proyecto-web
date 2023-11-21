@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/barra.css">
+    <link rel="stylesheet" href="../css/historial.css">
+    <title>Software de Mantenimiento</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Software de Mantenimiento</h1>
+    </div>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="perfil2.jpg" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-clipboard-list"></i>Ordenes de trabajo</a>
+                <ul class="submenu">
+                    <a href="verOrden.html"><i class="fas fa-wrench"></i>Generar Orden</a>
+
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a>
+                <ul class="submenu">
+                    <a href="verHistorial.html"><i class="far fa-clock"></i> Historial</a>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <form id="generarIndicadoresForm">
+            <div class="form-group">
+                <select id="codigoCentrado" name="codigoCentrado">
+                    <option value="" disabled selected>Seleccione un código </option>
+                </select>
+            </div>
+
+            <p>Para efectos de generar correctamente los indicadores es necesario saber las horas de trabajo por dia de
+                la maquina que se quiere consultar, además de los días entre las fechas especificadas los cuales esta
+                misma no trabaja</p>
+
+            <div class="form-group">
+                <label for="numeros">Numero de horas diarias que trabaja la maquina:</label>
+                <select id="numeros" name="numeros">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <p>Generar indicadores entre el día</p>
+                <div>
+                    <input type="date" id="inicioFecha" name="inicioFecha" required>
+                    <label for="horaInicio">a las</label>
+                    <input type="time" id="horaInicio" name="horaInicio" required>
+                </div>
+                <br>
+                <p>y el día</p>
+                <div>
+                    <input type="date" id="terminoFecha" name="terminoFecha" required>
+                    <label for="horaTermino">a las</label>
+                    <input type="time" id="horaTermino" name="horaTermino" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="numeros2">Cantidad de días en el intervalo de fechas los cuales no trabajara la
+                    maquina:</label>
+                <input type="number" id="telefono" name="telefono" required><br>
+            </div>
+
+            <input type="submit" value="Generar indicadores">
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const codigoCentradoSelect = document.getElementById("codigoCentrado");
+
+            fetch("http://localhost:8080/api/maquinas")
+                .then(response => response.json())
+                .then(maquinas => {
+                    codigoCentradoSelect.innerHTML = '<option value="" disabled selected>Seleccione un código </option>';
+
+                    maquinas.forEach(maquina => {
+                        const option = document.createElement("option");
+                        option.value = maquina.codigo;
+                        option.text = maquina.codigo;
+                        codigoCentradoSelect.add(option);
+                    });
+                })
+                .catch(error => console.error("Error al obtener máquinas:", error));
+        });
+
+        const generarIndicadoresForm = document.getElementById("generarIndicadoresForm");
+
+        generarIndicadoresForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const codigo = document.getElementById("codigoCentrado").value;
+            const horasDiarias = document.getElementById("numeros").value;
+            const inicioFecha = document.getElementById("inicioFecha").value;
+            const horaInicio = document.getElementById("horaInicio").value;
+            const terminoFecha = document.getElementById("terminoFecha").value;
+            const horaTermino = document.getElementById("horaTermino").value;
+            const diasNoTrabajo = document.getElementById("telefono").value;
+
+            localStorage.setItem("codigoMaquina", codigo);
+
+            window.location.href = "verIndicadores.html";
+        });
+
+
+
+        function generarOpciones(selectorId, inicio, fin) {
+            const select = document.getElementById(selectorId);
+            for (let i = inicio; i <= fin; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                select.add(option);
+            }
+        }
+        generarOpciones('numeros', 1, 24);
+    </script>
+</body>
+
+</html>

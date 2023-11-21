@@ -42,20 +42,6 @@
         document.addEventListener("DOMContentLoaded", function () {
             var emailInput = document.getElementById("email");
             var passwordInput = document.getElementById("password");
-            var newPasswordLink = document.getElementById('nuevaPass');
-
-            newPasswordLink.addEventListener("click", function (event) {
-                event.preventDefault();
-
-                var newPassword = prompt("Por favor, ingresa tu nueva contraseña:");
-
-                if (newPassword !== null) {
-                    localStorage.setItem("passwordCorrecto", newPassword);
-                    alert("Contraseña actualizada exitosamente");
-                } else {
-                    alert("Operación cancelada");
-                }
-            });
 
             document.getElementById("loginForm").addEventListener("submit", function (event) {
                 event.preventDefault();
@@ -63,12 +49,19 @@
                 var email = emailInput.value;
                 var password = passwordInput.value;
 
-                var usuarioCorrecto = "admin@gmail.com";
-                var storedPassword = localStorage.getItem("passwordCorrecto") || "admin";
+                var users = [
+                    { email: "admin@gmail.com", password: "admin", redirectTo: "pag2.html" },
+                    { email: "usuario1@gmail.com", password: "12345", redirectTo: "pag3.html" },
+                    { email: "usuario2@gmail.com", password: "54321", redirectTo: "pag4.html" }
+                ];
 
-                if (email === usuarioCorrecto && password === storedPassword) {
+                var foundUser = users.find(function (user) {
+                    return user.email === email && user.password === password;
+                });
+
+                if (foundUser) {
                     alert("Inicio de sesión exitoso");
-                    window.location.href = "pag2.html";
+                    window.location.href = foundUser.redirectTo;
                 } else {
                     alert("Inicio de sesión incorrecto");
                 }
